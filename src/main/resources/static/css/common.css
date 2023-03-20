@@ -1,0 +1,92 @@
+@charset "UTF-8";
+@font-face {
+    font-family: 'Dovemayo_gothic';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.1/Dovemayo_gothic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+*{
+	margin: 0 0;
+	padding: 0 0;
+	font-family: 'KOTRAHOPE';
+}
+
+.layout_page_wrap{
+	width: 80%;
+	margin:0 auto;
+	margin-top: 3rem;
+}
+
+.title_box{
+	border: 1px solid silver;	
+	padding: 1rem 0.5rem;
+	width: 100%;
+}
+
+.title_box:focus{
+	outline: none;
+}
+
+.input_box{
+	border: 1px solid silver;	
+	padding: 1rem 0.5rem;
+	width: 100%;
+}
+
+.input_box:focus{
+	outline: none;
+}
+
+.textarea_box{
+	border: 1px solid silver;
+	padding:  0.5rem;
+	padding-top: 1rem;
+	padding-bottom: 10rem;	
+}
+
+.textarea_box:focus{
+	outline: none;
+}
+
+.input_box:focus{
+	outline: none;
+	border-bottom: 1px solid #287cff;
+}
+
+.textarea{
+	height: rem5;
+}
+
+.btn{
+	display: inline-block;
+	min-width: 50px;
+	margin-left: 10px;
+	padding: 8px;
+	border: 1px solid black;
+	border-radius: 5px;
+	font-size: 1.3rem;
+	background: black;	
+	color: white;	
+}
+
+.btn:hover {
+	text-decoration-line: underline;
+	text-shadow: 0 0 3px #fff;
+	cursor: pointer;
+}
+
+a{
+	color : black;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+onclick{
+	cursor: pointer;	
+}
+
+	

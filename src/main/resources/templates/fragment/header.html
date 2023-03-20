@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- 이곳에 스타일 태그를 사용해서는 안된다 -->
+<!-- th:block태그 안에 넣어야한다 -->
+<th:block th:fragment="headerFragment">
+<style type="text/css">
+.menu_wrap > div:first-child {
+	text-align: right;
+}
+
+.menu_wrap > div:last-child {
+	text-align: center;
+	font-size: 4rem;
+	font-weight: bold;
+}
+</style>
+<div class="menu_wrap">
+	<th:block th:if="${session.loginInfo == null}">
+		<div>
+			<a th:href="@{/member/login}">LOGIN</a>
+			<a th:href="@{/member/goJoin}">JOIN</a>
+		</div>
+	</th:block>
+	<th:block th:if="${session.loginInfo != null}">
+		<div>
+			[[${session.loginInfo.memName}]]님 반갑습니다.
+			<a onclick='logoutCheck()'>LOGOUT</a>
+		</div>
+	</th:block>
+	<div>
+		SPRING BOARD
+	</div>
+</div>
+<script type="text/javascript">
+function logoutCheck(){
+	if(!confirm('로그 아웃 하시겠습니까?')){
+		return false;
+	}
+	location.href='/member/logout';
+}
+</script>
+</th:block>
+</html>

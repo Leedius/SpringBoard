@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 해당 파일에 모든 쿼리문을 작성 -->
+<mapper namespace="replyMapper">
+<!-- type에는 위치정보를 다적어야한다 -->
+<resultMap type="com.study.board.reply.vo.ReplyVO" id="reply">
+		<id column = "REPLY_NUM"				property="replyNum"/>
+		<result column = "REPLY_CONTENT" 		property="replyContent"/>
+		<result column = "REPLY_WRITER" 		property="replyWriter"/>
+		<result column = "REG_DATE" 			property="regDate"/>
+		<result column = "BOARD_NUM" 			property="boardNum"/>
+	</resultMap>
+	
+	<!-- 댓글 목록 조회 -->
+	<select id="getReplyList" resultMap="reply">
+		SELECT REPLY_NUM
+			, REPLY_CONTENT
+			, REPLY_WRITER
+			, TO_CHAR(REG_DATE, 'YY.MM.DD HH24:MI') AS REG_DATE
+			, BOARD_NUM
+		FROM SPRING_REPLY
+		WHERE
+			BOARD_NUM = #{boardNum}
+		ORDER BY REPLY_NUM DESC
+	</select>
+	
+	<!-- 댓글 등록 -->
+	<!-- BOARD_PW에서는 비밀글로 등록하지않으면 빈값이 들어가는데
+	SQL DB에는 NULL로 들어간다 -->	
+	<insert id="regReply">
+		INSERT INTO SPRING_REPLY (
+			REPLY_NUM
+			, REPLY_CONTENT
+			, REPLY_WRITER
+			, BOARD_NUM
+		) VALUES (
+			(SELECT 'REPLY_'||LPAD(NVL(MAX(TO_NUMBER(SUBSTR(REPLY_NUM, 7))), 0) + 1, 3, '0') 
+         FROM SPRING_REPLY)
+			, #{replyContent}
+			, #{replyWriter}
+			, #{boardNum}
+		)
+	</insert>
+	
+	<!-- 댓글 삭제 -->
+	<delete id="deleteReply">
+		DELETE SPRING_REPLY
+		WHERE
+			REPLY_NUM = #{replyNum}
+	</delete>
+	
+	<!-- 댓글 수정 -->
+	<update id="updateReply">
+		UPDATE SPRING_REPLY
+		SET
+			REPLY_CONTENT = #{replyContent}
+		WHERE
+			REPLY_NUM = #{replyNum}
+	</update>
+</mapper>
+
+	

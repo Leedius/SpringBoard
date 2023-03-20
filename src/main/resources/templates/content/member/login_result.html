@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div>
+		<input type="hidden" id="memId" th:value="${memberVO.memId}">
+		<th:block th:if="${session.loginInfo == null}">
+			<script type="text/javascript">
+					alert('로그인 실패 아이디와 비밀번호를 확인하세요.');
+					/* 변수를 만들어 memId 값을 받아온 memId값으로 저장 */
+					const memId = document.querySelector('#memId').value;
+					/* MemberController에 get login에 매개변수가 MemberVO memberVO가 있기때문에
+					memId를 memberVO가 데이터를 받는다 */
+					
+					location.href = `/member/login?memId=${memId}`;
+			</script>
+		</th:block>
+		<th:block th:if="${session.loginInfo != null}">
+			<th:block th:if="${session.loginInfo.isAdmin == 'Y'}">
+				<script type="text/javascript">
+					alert('관리자로 로그인 하셨습니다.');
+					location.href = '/board/boardList';
+				</script>
+			</th:block>
+			<th:block th:if="${session.loginInfo.isAdmin == 'N'}">
+				<script type="text/javascript">
+					alert('로그인 하셨습니다.');
+					location.href = '/board/boardList';
+				</script>
+			</th:block>
+		</th:block>
+	</div>
+</body>
+</html>

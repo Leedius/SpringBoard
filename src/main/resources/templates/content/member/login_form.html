@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="httSp://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{fragment/layout}">
+
+<th:block layout:fragment="content">
+<style type="text/css">
+.page_wrap{
+	margin: 0 auto;
+	width: 70%;
+}
+
+.page_title_wrap{
+	margin-top: 3rem;
+}
+
+.page_title_wrap > div{
+	text-align: center;
+}
+
+.page_title_wrap > div {
+	width: 30%;
+	margin: 0 auto;
+	margin-bottom: 2rem;
+}
+
+.input_wrap{
+	margin: 0 auto;
+	width: 40%;
+	text-align: center;
+}
+
+.input_wrap  div{
+	margin-bottom: 1rem;
+}
+
+.btn_wrap{
+	margin-top: 2rem;
+}
+
+
+</style>
+<div class="page_wrap">
+	<div class="page_title_wrap">
+		<div>
+			<h2>로그인 페이지</h2>
+		</div>
+	</div>
+	<div class="input_wrap">
+	<form th:action="@{/member/login}" method="post" th:object="${memberVO}">
+		<div>
+			<input class="input_box" type="text" th:field="*{memId}" placeholder="아이디를 입력해주세요." required>
+		</div>
+		<div>
+			<input class="input_box" type="password" th:field="*{memPw}" placeholder="비밀번호를 입력해주세요." required>
+		</div>
+		<div class="btn_wrap">
+			<input class="btn" type="submit" value="LOGIN">
+		</div>
+	</form>
+	</div>
+</div>
+</th:block>
+</html>

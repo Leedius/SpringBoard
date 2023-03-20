@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="httSp://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{fragment/layout}">
+
+<!-- 연결해야 할 외부 css파일 -->  
+<th:block layout:fragment="content_css">
+  	<link rel="stylesheet" href="/css/board/board_write_form.css">
+</th:block>
+<th:block layout:fragment="content">
+<div class="page_wrap">
+	<div>
+		<div>
+			<h1 style="text-align: center;">글 작 성</h1>
+		</div>
+	</div>
+	<form th:action="@{/board/regBoard}" method="post" th:object="${boardVO}">
+	<div>
+		<div class="list_input_wrap">
+			<div>
+				<input class="title_box" type="text" th:field="*{boardTitle}" placeholder="제목을 입력하여 주세요." required>
+			</div>
+			<div>
+				<textarea class="title_box" th:field="*{boardContent}" rows="10" cols="50" placeholder="내용을 입력해 주세요." required></textarea>
+			</div>
+			<div>
+				&#128272;비밀글 <input type="checkbox" id="isPrivate" name="isPrivate" value="N" onclick='togglePw();'>
+			</div>
+			<div class="input_board_pw" id="input_board_pw">
+				<input class="board_pw" type="password" id="boardPw" name="boardPw" placeholder="글 비밀번호를 입력해 주세요.">
+			</div>
+		</div>
+	</div>
+	<div class="btn_wrap">
+		<input class="btn" type="button" value="목록" th:onclick="|location.href='@{/board/boardList}'|">
+		<input class="btn" type="submit" value="글등록">
+	</div>
+	</form>
+</div>
+</th:block>
+<!-- 연결해야 할 외부 js파일 -->
+<th:block layout:fragment="content_js">
+  	<script type="text/javascript" src="/js/board/board_write_form.js"></script>
+</th:block>
+</html>

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 해당 파일에 모든 쿼리문을 작성 -->
+<mapper namespace="boardMapper">
+<!-- type에는 위치정보를 다적어야한다 -->
+<resultMap type="com.study.board.board.vo.BoardVO" id="board">
+		<id column = "BOARD_NUM"			property="boardNum"/>
+		<result column = "BOARD_TITLE" 		property="boardTitle"/>
+		<result column = "BOARD_CONTENT" 	property="boardContent"/>
+		<result column = "BOARD_WRITER" 	property="boardWriter"/>
+		<result column = "REG_DATE" 	property="regDate"/>
+		<result column = "READ_CNT" 	property="readCnt"/>
+		<result column = "IS_PRIVATE" 	property="isPrivate"/>
+		<result column = "BOARD_PW" 	property="boardPw"/>
+		<result column = "REPLY_CNT" 	property="replyCnt"/>
+		<result column = "ROW_NUM" 		property="rowNum"/>
+		<result column = "ROW_NUMBER" 	property="rowNumber"/>
+	</resultMap>
+	
+	<!-- 게시글 목록 조회 -->
+	<select id="getBoardList" resultMap="board">
+		SELECT  (SELECT COUNT(BOARD_NUM) FROM SPRING_BOARD) - ROW_NUM + 1 AS ROW_NUMBER 
+			, BOARD_NUM
+			, BOARD_TITLE
+			, BOARD_WRITER
+			, REG_DATE
+			, READ_CNT
+			, ROWNUM
+			, REPLY_CNT
+			, IS_PRIVATE
+			, BOARD_PW
+		FROM
+			(
+			SELECT BOARD_NUM
+				, BOARD_TITLE
+				, BOARD_WRITER
+				, REG_DATE
+				, READ_CNT
+				, ROWNUM ROW_NUM
+				, REPLY_CNT
+				, IS_PRIVATE
+				, BOARD_PW
+			FROM
+				(
+					SELECT BOARD_NUM
+						, BOARD_TITLE
+						, BOARD_WRITER
+						, TO_CHAR(REG_DATE, 'YYYY-MM-DD') AS REG_DATE
+						, READ_CNT
+						, ROWNUM AS INNER_NUM
+						, (SELECT COUNT(REPLY_NUM)
+							FROM SPRING_REPLY
+							WHERE BOARD_NUM = SPRING_BOARD.BOARD_NUM) AS REPLY_CNT
+						, IS_PRIVATE
+						, BOARD_PW
+					FROM SPRING_BOARD
+					ORDER BY BOARD_NUM DESC
+				)
+		)
+		WHERE ROW_NUM &gt;= #{startNum} AND ROW_NUM &lt;= ${endNum}
+	</select>
+	<!-- 		AND
+		<if test="searchName != null and !searchName.equals('')">
+		WHERE UPPER(${selectName}) LIKE '%'||UPPER(#{searchName})||'%'
+		</if>
+		ORDER BY BOARD_NUM DESC -->
+		
+	<!-- 게시글 개수 조회 -->
+	<select id="getBoardCnt" resultType="int">
+	SELECT COUNT(BOARD_NUM)
+	FROM SPRING_BOARD
+	</select>
+	
+	<!-- 글 등록 -->
+	<!-- BOARD_PW에서는 비밀글로 등록하지않으면 빈값이 들어가는데
+	SQL DB에는 NULL로 들어간다 -->	
+	<insert id="regBoard">
+		INSERT INTO SPRING_BOARD (
+			BOARD_NUM
+			, BOARD_TITLE
+			, BOARD_CONTENT
+			, BOARD_WRITER
+			, IS_PRIVATE
+			, BOARD_PW
+		) VALUES (
+			(SELECT 'BOARD_'||LPAD(NVL(MAX(TO_NUMBER(SUBSTR(BOARD_NUM, 7))), 0) + 1, 3, '0') 
+         FROM SPRING_BOARD)
+			, #{boardTitle}
+			, #{boardContent}
+			, #{boardWriter}
+			, #{isPrivate}
+			, #{boardPw}
+		)
+	</insert>
+	
+	<!-- 글 상세 조회 -->
+	<select id="getBoardDetail" resultMap="board">
+		SELECT BOARD_NUM
+			, BOARD_TITLE
+			, BOARD_WRITER
+			, BOARD_CONTENT
+			, TO_CHAR(REG_DATE, 'YY.MM.DD HH24:MI') AS REG_DATE
+			, READ_CNT
+			, IS_PRIVATE
+			, BOARD_PW
+		FROM SPRING_BOARD
+		WHERE BOARD_NUM = #{boardNum}
+	</select>
+	
+	<!-- 글 상세 조회시 조회수 증가 -->
+	<update id="increaseReadCnt">
+		UPDATE SPRING_BOARD
+		SET
+			READ_CNT = READ_CNT + 1
+		WHERE
+			BOARD_NUM = #{boardNum}
+	</update>
+	
+	<!-- 글 수정 -->
+	<update id="updateBoard">
+		UPDATE SPRING_BOARD
+		SET
+			BOARD_TITLE = #{boardTitle}
+			, BOARD_CONTENT = #{boardContent}
+			, IS_PRIVATE = #{isPrivate}
+			, BOARD_PW = #{boardPw}
+		WHERE
+			BOARD_NUM = #{boardNum}
+	</update>
+	
+	<!-- 글 삭제 -->
+	<delete id="deleteBoard">
+		DELETE SPRING_BOARD
+		WHERE
+			BOARD_NUM = #{boardNum}
+	</delete>
+	
+</mapper>
+
+	

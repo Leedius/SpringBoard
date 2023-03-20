@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="httSp://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{fragment/layout}">
+
+<th:block layout:fragment="content">
+<style type="text/css">
+.page_wrap{
+	margin: 0 auto;
+	width: 40%;
+}
+
+.page_title{
+	margin-top: 2rem;
+	text-align: center;
+}
+
+.input_wrap{
+	margin-top: 3rem;
+}
+
+.input_wrap > div:nth-child(odd){
+	margin-top: 1rem;
+	text-align: left;
+}
+
+.btn_wrap{
+	text-align: center;
+	margin-top: 3rem;
+}
+
+
+</style>
+<div class="page_wrap">
+	<div>
+		<div class="page_title">
+			<h1>회원 가입</h1>
+		</div>
+	</div>
+	<div>
+		<form th:action="@{/member/joinMember}" method="post" th:object="${memberVO}">
+			<div class="input_wrap">
+				<div>
+					ID.
+				</div>
+				<div>
+					<input class="input_box" type="text" th:field="*{memId}" required>
+				</div>
+				<div>
+					PW.
+				</div>
+				<div>
+					<input class="input_box" type="password" th:field="*{memPw}" required>
+				</div>
+				<div>
+					NAME.
+				</div>
+				<div>
+					<input class="input_box" type="text" th:field="*{memName}" required>
+				</div>
+			</div>
+		<div class="btn_wrap">
+			<input class="btn" type="submit" value="회원가입">
+		</div>
+		</form>
+	</div>
+</div>
+</th:block>
+</html>

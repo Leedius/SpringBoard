@@ -1,0 +1,156 @@
+@charset "UTF-8";
+.board_wrap{
+	margin: 20px auto;
+	width: 70%;
+}
+.board_writer{
+	font-size: 1.2rem;
+}
+.create_wrap > div{
+ 	display: inline-block;
+}
+.create_wrap{
+	border-bottom: 1px solid silver;
+	margin-bottom: 30px;
+	font-size: 1.2rem;
+	color: #97a4c3;
+}
+.board_wrap > div{
+	text-align: left;
+}
+.board_title{
+	margin-bottom: 20px;
+	
+}
+.content_wrap{
+	min-height: 10rem;
+	max-height: 200rem; 
+}
+.board_content{
+	word-break: break-all;
+	font-size: 1.3rem;
+}
+.btn_wrap{
+	margin-top: 20px;
+	padding-bottom: 3rem;
+	text-align: center;
+}
+.btn_wrap > div{
+	display: inline-block;
+}
+.btn_wrap > div > div{
+	display: inline-block;
+}
+.reply_wrap{
+	margin: 0 auto;
+	width: 70%;
+}
+.reply_title{
+	padding-top: 0.5rem;
+	border-top:1px solid silver;
+	text-align: left;
+	font-size: 1.5rem;
+	font-weight: bold;
+}
+.not_reply{
+	text-align: left;
+	font-size: 1.1rem;
+	padding-bottom: 1rem;
+	border-bottom: 0.5px solid silver;
+}
+.reply_info_wrap{
+	margin-top: 10px;
+	text-align: left;
+}
+.reply_writer{
+	margin-top:1.0rem;
+	font-size: 1.2rem;
+	font-weight: bold;
+}
+.reply_writer:first-child{
+	border-top: none;
+}
+.reply_content{
+	margin-top: 0.2rem;
+	font-size: 1.2rem;
+}
+.reply_createDate{
+	margin-top: 0.1rem;
+	font-size: 1.1rem;
+	color: #97a4c3;
+}
+.reg_reply{
+	border: 0.5px solid silver;
+	border-radius: 5px;
+	margin-top: 1rem;
+	text-align: left;
+}
+
+.update_reg_reply{
+	margin-top: 1rem;
+	border: 0.5px solid silver;
+	border-radius: 5px;
+	text-align: left;
+}
+
+.reg_reply_box{
+	margin-top: 1.0rem;
+}
+.reg_reply_writer{
+	margin-left: 1rem;
+	margin-top: 1rem;
+	font-size: 1.2rem;
+	text-align: left;
+}
+.reg_reply textarea,
+.update_reg_reply textarea{
+	box-sizing: border-box;
+	width: 90%;
+	resize: none;
+	border: none;
+	font-size: 1em;
+	margin-top: 1rem;
+	margin-left: 1rem;
+}
+.reg_reply textarea:focus{
+	outline: none;
+}
+.reg_reply_btn{
+	text-align: right;
+}
+.reg_reply_btn > input{
+	border: none;
+	background-color: white;
+	margin-right: 1rem;
+	margin-bottom: 1rem;
+}
+.reply_btn_wrap{
+	font-size: 0.5rem;
+}
+
+.reply_loop_wrap{
+	padding-bottom: 1rem;
+	border-bottom: 1px solid silver;
+}
+
+.update_reg_reply{
+	display: none;
+}
+
+.reply_btn_wrap > div:nth-child(1),
+.reply_btn_wrap > div:nth-child(2){
+	display: inline-block;
+	font-size: 0.5rem;
+}
+.r_btn{
+	color: #97a4c3;
+	font-size:1rem;
+	background: white;
+	border: none;
+}
+.r_btn:hover {
+	text-decoration-line: underline;
+	text-shadow: 0 0 3px #fff;
+	color: #4294f7;
+	cursor: pointer;
+}	

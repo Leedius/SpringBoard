@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet"  type="text/css" href="/css/common.css">
+<style type="text/css">
+.layout_page_wrap{
+ margin-bottom: 2rem;
+}
+</style>
+<th:block layout:fragment="content_css"></th:block>
+</head>
+<body>
+<div class="layout_page_wrap">
+	<div>
+		<th:block th:replace="~{fragment/header::headerFragment}"></th:block>
+	</div>
+	<div>
+		<th:block layout:fragment="content"></th:block>
+	</div>
+</div>
+<th:block layout:fragment="content_js"></th:block>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="httSp://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{fragment/layout}">
+
+<th:block layout:fragment="content">
+
+<style type="text/css">
+.page_wrap{
+	margin: 0 auto;
+	margin-top: 20px;
+	text-align: center;
+}
+
+.input_wrap{
+	margin-top: 2rem;
+}
+
+.board_title > input{
+	width: 50%;
+	height: 1.5rem;
+}
+.board_content > textarea{
+	margin-top: 20px;
+	resize: none;
+	width: 50%;
+	height: 5rem;
+}
+.page_wrap .btn_wrap{
+	margin-top: 20px;
+}
+
+.btn_wrap > div{
+	display: inline-block;
+}
+
+.board_private{
+	margin: 0 auto;
+	width: 50%;
+	text-align: left;
+	margin-top: 2rem;
+}
+
+.input_board_pw {
+    visibility: hidden;
+}
+
+.board_pw{
+	border: 1px solid silver;	
+	padding: 0.3rem 0.2rem;
+	width: 30%;
+}
+
+.board_pw:focus{
+	outline: none;
+}
+
+</style>
+<div class="page_wrap">
+	<div>
+		<div class="page_title">
+			<h1>글 수 정</h1>
+		</div>
+	</div>
+	<div class="input_wrap">
+		<form th:action="@{/board/updateBoard}" method="post">
+		<input type="hidden" name="boardNum" th:value="${boardDetail.boardNum }">
+		<div class="board_title">
+			<input type="text" name="boardTitle" class="title_box" th:value="${boardDetail.boardTitle }" placeholder="제목을 입력해 주세요." maxlength="30" required>
+		</div>
+		<div class="board_content">
+			<textarea name="boardContent" class="textarea_box" placeholder="내용을 입력해 주세요." required>[[${boardDetail.boardContent}]]</textarea>
+		</div>
+		<div class="board_private" >
+			<div>
+			&#128272;비밀글 <input type="checkbox" id="isPrivate" name="isPrivate" value="N" onclick='togglePw();'>
+			</div>
+			<div class="input_board_pw" id="input_board_pw">
+				<input class="board_pw" type="password" id="boardPw" name="boardPw" placeholder="글 비밀번호를 입력해 주세요.">
+			</div>
+		</div>
+		<div class="btn_wrap">
+			<div>
+				<input type="submit" class="btn" value="등록">
+			</div>
+			<div>
+				<input type="button" class="btn" value="뒤로가기" th:onclick="|location.href='@{/board/boardList}'|">
+			</div>
+		</div>
+		</form>
+	</div>
+</div>
+<script type="text/javascript">
+function togglePw(){
+		//작성된 비밀번호 지워주기
+		document.querySelector('#boardPw').value = '';
+		const inputBoardPW = document.querySelector('#input_board_pw');
+		
+		//()라는 클래스를 추가, 삭제
+		inputBoardPW.classList.toggle('input_board_pw');
+			
+		const isPrivate = document.getElementById('isPrivate');
+		isPrivate.addEventListener('change' , function(){
+		if (isPrivate.checked) {
+			isPrivate.value = 'Y';
+		} else {
+			isPrivate.value = 'N';
+		} 
+		
+		})
+}
+
+</script>
+</th:block>
+</html>

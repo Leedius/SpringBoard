@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="httSp://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{fragment/layout}">
+	
+	<!-- 연결해야 할 외부 css파일 -->  
+<th:block layout:fragment="content_css">
+  	<link rel="stylesheet" href="/css/board/board_detail.css">
+</th:block>
+
+<th:block layout:fragment="content">
+	<div>
+		<div class="board_wrap">
+			<div>
+				<div class="board_title">
+					<h2>[[${boardDetail.boardTitle}]]</h2>
+				</div>
+				<div class="board_writer">[[${boardDetail.boardWriter}]]</div>
+				<div class="create_wrap">
+					<div class="board_createDate">[[${boardDetail.regDate}]]</div>
+					<div id="board_content" class="board_readCnt">조회수
+						[[${boardDetail.readCnt}]]</div>
+				</div>
+			</div>
+			<div class="content_wrap">
+				<pre class="board_content">[[${boardDetail.boardContent}]]</pre>
+			</div>
+		</div>
+		<div class="reply_wrap">
+			<div class="reply_title">댓글</div>
+			<div>
+				<th:block th:if="${replyList.size == 0 }">
+					<div class="not_reply">댓글이 없습니다.</div>
+					<th:block th:if="${session.loginInfo != null}">
+						<div class="reg_reply">
+							<div class="reg_reply_writer">[[${session.loginInfo.memId}]]</div>
+							<form
+								th:action="@{/reply/regReply(boardNum=${boardDetail.boardNum})}"
+								method="post">
+								<textarea rows="1" name="replyContent" oninput="resize(this)"
+									required></textarea>
+								<div class="reg_reply_btn">
+									<input class="r_btn" type="submit" value="등록">
+								</div>
+							</form>
+						</div>
+					</th:block>
+				</th:block>
+				<th:block th:if="${replyList.size != 0}">
+					<div class="reply_info_wrap">
+						<div th:each="reply, status : ${replyList }">
+							<div class="reply_loop_wrap">
+								<div class="reply_loop"
+									th:classappend="${status.last} ? 'last_reply' : ''">
+									<input type="hidden" id="nReply" th:value="${reply.replyNum}">
+									<div class="reply_writer">[[${reply.replyWriter}]]</div>
+									<div class="reply_content">[[${reply.replyContent}]]</div>
+									<div class="reply_createDate">[[${reply.regDate}]]</div>
+									<div class="reply_btn_wrap">
+										<th:block
+											th:if="${(session.loginInfo != null && session.loginInfo.memId == reply.replyWriter) || (session.loginInfo != null && session.loginInfo.isAdmin == 'Y') }">
+											<div class="reply_update">
+												<input class="r_btn" type="button" value="수정" id="updateReply" th:onclick="toggle([[${reply.replyNum}]])">
+											</div>
+											<div class="reply_delete">
+												<input class="r_btn" type="button" value="삭제"
+													th:onclick="goReplyDelete([[${reply.replyNum}]], [[${reply.boardNum}]])">
+											</div>
+										</th:block>
+									</div>
+								</div>
+							<th:block th:if="${(session.loginInfo != null && session.loginInfo.memId == reply.replyWriter) || (session.loginInfo != null && session.loginInfo.isAdmin == 'Y') }">
+								<div class="update_reply_box">
+									<div class="update_reg_reply">
+										<div class="reg_reply_writer">[[${session.loginInfo.memId}]]
+										</div>
+										<form
+											th:action="@{/reply/updateReply(boardNum=${boardDetail.boardNum})}"
+											method="post">
+											<input type="hidden" name="replyNum" th:value="${reply.replyNum}">
+											<textarea rows="1" class="update_reply_content" th:name="replyContent"
+												th:text="${reply.replyContent}" oninput="resize(this)" required></textarea>
+											<div class="reg_reply_btn" style="margin-bottom:0;">
+												<input class="r_btn" type="submit" value="등록">
+												<input class="r_btn" type="button" value="취소" th:onclick="updateReplyCancel([[${reply.replyNum}]])">
+											</div>
+										</form>
+									</div>
+								</div>
+							</th:block>
+							</div>
+						</div>
+						<th:block th:if="${session.loginInfo != null }">
+							<div class="reg_reply_box">
+								<div class="reg_reply">
+									<div class="reg_reply_writer">[[${session.loginInfo.memId}]]
+									</div>
+									<form
+										th:action="@{/reply/regReply(boardNum=${boardDetail.boardNum})}"
+										method="post" th:object="${replyVO}">
+										<textarea rows="1" th:field="*{replyContent}"
+											oninput="resize(this)" required></textarea>
+										<div class="reg_reply_btn">
+											<input class="r_btn" type="submit" value="등록">
+										</div>
+									</form>
+								</div>
+							</div>
+						</th:block>
+					</div>
+				</th:block>
+			</div>
+		</div>
+		<div class="btn_wrap">
+			<th:block th:if="${session.loginInfo != null}">
+				<th:block
+					th:if="${session.loginInfo.memId == boardDetail.boardWriter || session.loginInfo.isAdmin == 'Y' }">
+					<div class="login_view_button">
+						<div>
+							<input type="button" class="btn" value="수정"
+								th:onclick="goBoardUpdate([[${boardDetail.boardNum}]])">
+						</div>
+						<div>
+							<input type="button" class="btn" value="삭제"
+								th:onclick="goBoardDelete([[${boardDetail.boardNum}]])">
+						</div>
+					</div>
+				</th:block>
+			</th:block>
+			<th:block th:unless="${session.loginInfo == null}">
+			</th:block>
+			<div>
+				<input type="button" class="btn" value="목록"
+					th:onclick="|location.href='@{/board/boardList}'|">
+			</div>
+		</div>
+	</div>
+</th:block>
+<!-- 연결해야 할 외부 js파일 -->
+<th:block layout:fragment="content_js">
+  	<script type="text/javascript" src="/js/board/board_detail.js"></script>
+</th:block>
+</html>

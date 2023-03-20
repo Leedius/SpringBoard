@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="httSp://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{fragment/layout}">
+
+<!-- 연결해야 할 외부 css파일 -->  
+<th:block layout:fragment="content_css">
+  	<link rel="stylesheet" href="/css/board/board_list.css">
+</th:block>
+
+<th:block layout:fragment="content">
+<div class="page_wrap">
+	<div>
+		<div class="page_title">
+			<h1>게 시 판</h1>
+		</div>
+	</div>
+	<div class="search_wrap">
+		<form th:action="@{/board/boardList}" method="post">
+			<div class="search_select">
+				<div>
+					<select th:name="selectName">
+						<option th:value="BOARD_TITLE">제목</option>
+						<option th:value="BOARD_WRITER">작성자</option>
+					</select>
+				</div>
+			</div>
+			<div class="search_input">
+				<div>
+					<input type="text" th:name="searchName"> 
+				</div>
+			</div>
+			<div>
+				<input class="btn search-btn" type="submit" value="검색">
+			</div>
+		</form>
+	</div>
+	<div class="info_wrap">
+		<div class="table_title_wrap">
+			<div>No.</div>
+			<div>제목</div>
+			<div>작성자</div>
+			<div>작성일</div>
+			<div>조회수</div>
+		</div>
+		<div class="board_list">
+			<th:block th:if="${#lists.size(boardList) != 0}">
+				<div th:each="board, status : ${boardList}">
+					<div>[[${board.rowNumber}]]</div>
+					<div class="isPrivateCheck" th:onclick="isPrivateCheck([[${board.isPrivate}]], [[${board.boardPw}]], [[${board.boardNum}]]);" >
+						<img src="/images/lock.png" th:if="${board.isPrivate == 'Y'}">
+						<span th:text="${board.boardTitle}"></span>
+						<!-- <a th:href="@{/board/boardDetail(boardNum=${board.boardNum})}">[[${board.boardTitle}]] -->
+						<span th:text="${board.replyCnt == 0 ? '' : '[' + board.replyCnt + ']'}"></span>
+					</div>
+					<div>[[${board.boardWriter}]]</div>
+					<div>[[${board.regDate}]]</div>
+					<div>[[${board.readCnt}]]</div>
+				</div>
+			</th:block>
+			<th:block th:unless="${#lists.size(boardList) != 0}">
+				<div class="empty_board">작성된 글이 없습니다.</div>
+			</th:block>
+		</div>
+	</div>
+	<div style="text-align: center; margin-top: 1rem;">
+		<span th:if="${pageVO.prev}" >
+			<a th:href="@{/board/boardList(nowPage=${pageVO.beginPage-1})}">이전</a>
+		</span>
+		<th:block th:each="pageNum : ${#numbers.sequence(pageVO.beginPage, pageVO.endPage)}">
+			<a th:href="@{/board/boardList(nowPage=${pageNum})}"><span th:text="${pageNum}"></span></a>
+		</th:block>
+		<span th:if="${pageVO.next}">
+			<a th:href="@{/board/boardList(nowPage=${pageVO.endPage+1})}">다음</a>
+		</span>
+	</div>
+	<th:block th:if="${session.loginInfo != null}">
+		<div class="btn_wrap">
+			<input class="btn" type="button" value="글등록" th:onclick="|location.href='@{/board/goWriteBoardForm}'|">
+		</div>
+	</th:block>
+	<th:block th:if="${session.loginInfo == null}">
+	</th:block>
+</div>
+</th:block>
+
+<!-- 연결해야 할 외부 js파일 -->
+<th:block layout:fragment="content_js">
+  	<script type="text/javascript" src="/js/board/board_list.js"></script>
+</th:block>
+
+</html>
