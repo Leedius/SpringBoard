@@ -54,9 +54,9 @@ public class ReplyController {
 	
 	//댓글 수정
 	@PostMapping("/updateReply")
-	public String updateReply(String boardNum, ReplyVO replyVO) {
+	public String updateReply(ReplyVO replyVO) {
 		replyService.updateReply(replyVO);
-		return "redirect:/board/boardDetail?boardNum=" + boardNum;
+		return "redirect:/board/boardDetail?boardNum=" + replyVO.getBoardNum();
 	}
 	
 }

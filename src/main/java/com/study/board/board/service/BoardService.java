@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.study.board.board.vo.BoardVO;
 import com.study.board.board.vo.PageVO;
-import com.study.board.search.vo.SearchVO;
 
 public interface BoardService {
 	//글 목록 조회

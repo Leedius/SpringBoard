@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.study.board.board.vo.BoardVO;
 import com.study.board.board.vo.PageVO;
-import com.study.board.search.vo.SearchVO;
 
 //객체를 만들어 주는 어노테이션
 //MemberServiceImpl memberService = new MemberServiceImpl();

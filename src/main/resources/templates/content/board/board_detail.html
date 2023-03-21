@@ -60,15 +60,20 @@
 										<th:block
 											th:if="${(session.loginInfo != null && session.loginInfo.memId == reply.replyWriter) || (session.loginInfo != null && session.loginInfo.isAdmin == 'Y') }">
 											<div class="reply_update">
-												<input class="r_btn" type="button" value="수정" id="updateReply" th:onclick="toggle([[${reply.replyNum}]])">
+												<!-- <input class="r_btn" type="button" value="수정" id="updateReply" th:onclick="toggle([[${reply.replyNum}]])"> -->
+												<!-- 다른방법 -->
+												<input class="r_btn" type="button" value="수정" th:onclick="setInput(this, [[${reply.replyNum}]], [[${boardDetail.boardNum}]])">
 											</div>
 											<div class="reply_delete">
 												<input class="r_btn" type="button" value="삭제"
 													th:onclick="goReplyDelete([[${reply.replyNum}]], [[${reply.boardNum}]])">
+													<!-- 다른방법 -->
+													<!-- th:onclick="|location.href='${/reply/deleteReply(replyNum=${reply.replyNum})}';|" -->
 											</div>
 										</th:block>
 									</div>
 								</div>
+								<!-- !!중요 AND(&&)시 앞의 조건이 맞지않으면 뒤에 조건문은 해석하지않는다 --> 
 							<th:block th:if="${(session.loginInfo != null && session.loginInfo.memId == reply.replyWriter) || (session.loginInfo != null && session.loginInfo.isAdmin == 'Y') }">
 								<div class="update_reply_box">
 									<div class="update_reg_reply">

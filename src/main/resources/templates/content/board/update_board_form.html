@@ -73,7 +73,7 @@
 		</div>
 		<div class="board_private" >
 			<div>
-			&#128272;비밀글 <input type="checkbox" id="isPrivate" name="isPrivate" value="N" onclick='togglePw();'>
+			&#128272;비밀글 <input type="checkbox" id="isPrivate" name="isPrivate" value="${" onclick='togglePw();'>
 			</div>
 			<div class="input_board_pw" id="input_board_pw">
 				<input class="board_pw" type="password" id="boardPw" name="boardPw" placeholder="글 비밀번호를 입력해 주세요.">
@@ -91,6 +91,8 @@
 	</div>
 </div>
 <script type="text/javascript">
+const isPrivate = document.querySelector('#isPrivate');
+
 function togglePw(){
 		//작성된 비밀번호 지워주기
 		document.querySelector('#boardPw').value = '';
